@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@bearer/js": "^1.13.10",
     "@bearer/react": "^1.13.10",
+    "arrayify": "^1.0.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0"

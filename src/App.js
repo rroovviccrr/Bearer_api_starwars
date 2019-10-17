@@ -1,46 +1,40 @@
-import React, { Component } from "react";
+import * as React from "react";
+import bearer from "@bearer/js";
 
-class App extends Component {
+const bearerClient = bearer('pk_production_ab40aef8d87e5e6c6ec622582999246ce723cd1ba652f92bd9');
+const starwars = bearerClient.integration("starwars");
+
+
+
+class App extends React.Component
+
+{
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
-      isLoaded: false
-    };
-  }
-  //runs after render then updates render
-  componentDidMount() {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          isLoaded: true,
-          items: json
-        });
-      });
-  }
-  //produces output
-  render() {
-    var { isLoaded, items } = this.state;
-    if (!isLoaded) {
-      return <div>Loading..</div>;
-    } else {
-      return (
-        <div className="App">
-          <ul>
-            {items.map(item => (
-              <li key={item.id}>
-                {item.name} | {item.email}
-              </li>
-            ))}
-            ;
-          </ul>
-        </div>
-      );
-    }
+      data: []
+   }
 
-    return <div className="App"></div>;
   }
-}
+
+  fetch = () => {
+    starwars
+      .auth(this.props.authId)
+      .get("/starships")
+      .then(({ data }) => {
+        this.setState({ data: JSON.stringify(data) });
+      });
+  };
+
+  UNSAFE_componentWillMount() {
+    this.fetch();
+  }
+
+  render() {
+     return <pre>{this.state.data}</pre>;
+   }
+ }
+
+
 
 export default App;
